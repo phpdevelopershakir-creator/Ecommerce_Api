@@ -23,6 +23,7 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'status' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -63,7 +64,7 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'status' => 'nullable|integer|in:0,1',
+            'status' => 'required|integer|in:0,1',
         ]);
 
         if ($validator->fails()) {
