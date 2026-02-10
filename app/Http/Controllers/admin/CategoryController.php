@@ -37,7 +37,7 @@ class CategoryController extends Controller
         $category->save();
         return response()->json([
             'status' => 200,
-            'success' => 'Category Added Successfully',
+            'message' => 'Category Added Successfully',
             'data' => $category
         ], 200);
     }
@@ -62,6 +62,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, string $id)
     {
+        $category = Category::find($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'status' => 'required|integer|in:0,1',
