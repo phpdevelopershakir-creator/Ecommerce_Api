@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use App\Models\Brand;
+use App\Models\Color;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
-class BrandController extends Controller
+class ColorControloler extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $brands = Brand::orderBy('created_at', 'DESC')->get();
+        $colors = Color::orderBy('created_at', 'DESC')->get();
         return response()->json([
             'status' => 200,
-            'data' => $brands
+            'data' => $colors
         ]);
     }
 
@@ -34,14 +36,14 @@ class BrandController extends Controller
                 'errors' => $validator->errors()
             ], 400);
         }
-        $brand = new Brand();
-        $brand->name = $request->name;
-        $brand->status = $request->status;
-        $brand->save();
+        $color = new Color();
+        $color->name = $request->name;
+        $color->status = $request->status;
+        $color->save();
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Added Successfully',
-            'data' => $brand
+            'message' => 'Color Added Successfully',
+            'data' => $color
         ], 200);
     }
 
@@ -50,17 +52,17 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        $brand = Brand::find($id);
-        if ($brand == null) {
+        $color = Color::find($id);
+        if ($color == null) {
             return response()->json([
                 'status' => 400,
-                'message' => 'Brand Not Fund',
+                'message' => 'Color Not Fund',
                 'data' => []
             ], 404);
         }
         return response()->json([
             'status' => 200,
-            'data' => $brand
+            'data' => $color
         ]);
     }
 
@@ -69,7 +71,7 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $brand = Brand::find($id);
+        $color = Color::find($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'status' => 'required|integer|in:0,1',
@@ -84,15 +86,15 @@ class BrandController extends Controller
 
 
 
-        $brand->update([
+        $color->update([
             'name' => $request->name,
-            'status' => $request->status ?? $brand->status,
+            'status' => $request->status ?? $color->status,
         ]);
 
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Updated Successfully',
-            'data' => $brand,
+            'message' => 'Color Updated Successfully',
+            'data' => $color,
         ], 200);
     }
 
@@ -101,18 +103,18 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        $brand = Brand::find($id);
+        $color = Color::find($id);
 
-        if (!$brand) {
+        if (!$color) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Brand Not Found',
+                'message' => 'Color Not Found',
             ], 404);
         }
-        $brand->delete();
+        $color->delete();
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Delete Successfully',
+            'message' => 'Color Delete Successfully',
         ], 200);
     }
 }

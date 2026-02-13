@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use App\Models\Brand;
+use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
-class BrandController extends Controller
+class SizeControloler extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $brands = Brand::orderBy('created_at', 'DESC')->get();
+        $sizes = Size::orderBy('created_at', 'DESC')->get();
         return response()->json([
             'status' => 200,
-            'data' => $brands
+            'data' => $sizes
         ]);
     }
 
@@ -34,14 +36,14 @@ class BrandController extends Controller
                 'errors' => $validator->errors()
             ], 400);
         }
-        $brand = new Brand();
-        $brand->name = $request->name;
-        $brand->status = $request->status;
-        $brand->save();
+        $size = new Size();
+        $size->name = $request->name;
+        $size->status = $request->status;
+        $size->save();
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Added Successfully',
-            'data' => $brand
+            'message' => 'Size Added Successfully',
+            'data' => $size
         ], 200);
     }
 
@@ -50,17 +52,17 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        $brand = Brand::find($id);
-        if ($brand == null) {
+        $size = Size::find($id);
+        if ($size == null) {
             return response()->json([
                 'status' => 400,
-                'message' => 'Brand Not Fund',
+                'message' => 'Size Not Fund',
                 'data' => []
             ], 404);
         }
         return response()->json([
             'status' => 200,
-            'data' => $brand
+            'data' => $size
         ]);
     }
 
@@ -69,7 +71,7 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $brand = Brand::find($id);
+        $size = Size::find($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'status' => 'required|integer|in:0,1',
@@ -84,15 +86,15 @@ class BrandController extends Controller
 
 
 
-        $brand->update([
+        $size->update([
             'name' => $request->name,
-            'status' => $request->status ?? $brand->status,
+            'status' => $request->status ?? $size->status,
         ]);
 
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Updated Successfully',
-            'data' => $brand,
+            'message' => 'Size Updated Successfully',
+            'data' => $size,
         ], 200);
     }
 
@@ -101,18 +103,17 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        $brand = Brand::find($id);
-
-        if (!$brand) {
+        $size = Size::find($id);
+        if (!$size) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Brand Not Found',
+                'message' => 'Size Not Found',
             ], 404);
         }
-        $brand->delete();
+        $size->delete();
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Delete Successfully',
+            'message' => 'Size Delete Successfully',
         ], 200);
     }
 }
