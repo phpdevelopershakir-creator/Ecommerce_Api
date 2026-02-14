@@ -17,4 +17,5 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::apiResource('brands', App\Http\Controllers\admin\BrandController::class);
     Route::apiResource('colors', App\Http\Controllers\admin\ColorControloler::class);
     Route::apiResource('sizes', App\Http\Controllers\admin\SizeControloler::class);
+    Route::apiResource('products', App\Http\Controllers\admin\ProductController::class);
 });
