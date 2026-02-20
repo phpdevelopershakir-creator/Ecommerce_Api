@@ -18,4 +18,5 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::apiResource('colors', App\Http\Controllers\admin\ColorControloler::class);
     Route::apiResource('sizes', App\Http\Controllers\admin\SizeControloler::class);
     Route::apiResource('products', App\Http\Controllers\admin\ProductController::class);
+    Route::post('temp-images',[App\Http\Controllers\admin\TempImagecontroller::class,'store']);
 });
