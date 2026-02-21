@@ -68,7 +68,7 @@ class ProductController extends Controller
 
                 $imageName = $product->id . '-' . time() . '.' . $ext;
                 $manager = new ImageManager(Driver::class);
-                $img = $manager->read(public_path('upload/temp/' . $tempImage->name));
+                $img = $manager->read(public_path('uploads/temp/' . $tempImage->name));
                 $img->scaleDown(1200);
                 $img->save(public_path('uploads/products/large/' . $imageName));
 
