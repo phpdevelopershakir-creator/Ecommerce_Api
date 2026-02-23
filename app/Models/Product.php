@@ -21,4 +21,13 @@ class Product extends Model
         'status',
         'image'
     ];
+
+    protected $appends = ['image_url'];
+    public function getImageUrlAttribute()
+    {
+        if ($this->image == "") {
+            return "";
+        }
+        return asset('uploads/products/small/' . $this->image);
+    }
 }
