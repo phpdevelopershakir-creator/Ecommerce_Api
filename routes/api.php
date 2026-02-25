@@ -19,4 +19,6 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::apiResource('sizes', App\Http\Controllers\admin\SizeControloler::class);
     Route::apiResource('products', App\Http\Controllers\admin\ProductController::class);
     Route::post('temp-images',[App\Http\Controllers\admin\TempImagecontroller::class,'store']);
+    Route::post('save-product-image',[App\Http\Controllers\admin\ProductController::class,'saveProductImage']);
+    Route::get('change-product-default-image',[App\Http\Controllers\admin\ProductController::class,'updateDefaultImage']);
 });
