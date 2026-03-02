@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Models\ProductSize;
 use App\Models\TempImage;
@@ -70,6 +71,15 @@ class ProductController extends Controller
             }
         }
 
+        if (!empty($request->colors)) {
+            foreach ($request->colors as  $colorId) {
+                $productColor = new ProductColor();
+                $productColor->color_id = $colorId;
+                $productColor->product_id = $product->id;
+                $productColor->save();
+            }
+        }
+
         if (!empty($request->gallery)) {
             foreach ($request->gallery as $key => $tempImageId) {
                 $tempImage = TempImage::find($tempImageId);
@@ -115,7 +125,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with(['product_images', 'product_sizes'])->find($id);
+        $product = Product::with(['product_images', 'product_sizes','product_colors'])->find($id);
         if ($product == null) {
             return response()->json([
                 'status' => 404,
@@ -124,11 +134,13 @@ class ProductController extends Controller
         }
 
         $productSizes = $product->product_sizes()->pluck('size_id');
+        $productColors = $product->product_colors()->pluck('color_id');
         return response()->json([
             'status' => 200,
             'message' => 'Product Added Successfully',
             'data' => $product,
-            'productSizes' => $productSizes
+            'productSizes' => $productSizes,
+             'productColors' => $productColors
         ], 200);
     }
 
@@ -178,6 +190,16 @@ class ProductController extends Controller
                 $productSize->size_id = $sizeId;
                 $productSize->product_id = $product->id;
                 $productSize->save();
+            }
+        }
+
+        if (!empty($request->colors)) {
+            ProductColor::where('product_id', $product->id)->delete();
+            foreach ($request->colors as  $colorId) {
+                $productColor = new ProductColor();
+                $productColor->color_id = $colorId;
+                $productColor->product_id = $product->id;
+                $productColor->save();
             }
         }
 

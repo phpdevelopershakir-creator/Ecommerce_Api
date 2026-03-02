@@ -14,7 +14,7 @@ class ColorControloler extends Controller
      */
     public function index()
     {
-        $colors = Color::orderBy('created_at', 'DESC')->get();
+        $colors = Color::orderBy('id', 'ASC')->get();
         return response()->json([
             'status' => 200,
             'data' => $colors
