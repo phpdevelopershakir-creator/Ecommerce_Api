@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\admin\AuthController;
+use App\Http\Controllers\front\AccountController;
+use App\Http\Controllers\front\OrderController;
 use App\Http\Controllers\front\ProductController as FrontProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,11 +16,22 @@ Route::get('get-brands', [FrontProductController::class, 'getBrands']);
 Route::get('get-products', [FrontProductController::class, 'getProducts']);
 Route::get('get-product/{id}', [FrontProductController::class, 'getProduct']);
 
+Route::post('/account/register', [AccountController::class, 'register']);
+Route::post('/account/login', [AccountController::class, 'login']);
+
+
+Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
+    Route::post('/order-save', [OrderController::class, 'OrderSave']);
+});
+
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+
+
+Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(function () {
 
     Route::apiResource('categories', App\Http\Controllers\admin\CategoryController::class);
     Route::apiResource('brands', App\Http\Controllers\admin\BrandController::class);
