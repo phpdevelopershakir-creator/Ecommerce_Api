@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -71,6 +72,23 @@ class AccountController extends Controller
                 'status' => 401,
                 'message' => 'Either email/password is incorrect.'
             ], 401);
+        }
+    }
+
+    public function getOrderDetails($id, Request $request)
+    {
+        $order = Order::with('items')->where(['user_id' => $request->user()->id, 'id' => $id])->first();
+        if ($order == null) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'Order not found',
+                'data' => []
+            ], 402);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'data' => $order
+            ], 200);
         }
     }
 }

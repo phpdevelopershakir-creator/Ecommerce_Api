@@ -23,4 +23,15 @@ class Order extends Model
         'zip',
 
     ];
+    function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime:d M,Y',
+        ];
+    }
 }
