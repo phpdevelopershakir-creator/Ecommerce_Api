@@ -22,6 +22,7 @@ Route::post('/account/login', [AccountController::class, 'login']);
 
 Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
     Route::post('/order-save', [OrderController::class, 'OrderSave']);
+    Route::get('get-orders', [AccountController::class, 'getOrders']);
     Route::get('get-order-details/{id}', [AccountController::class, 'getOrderDetails']);
 });
 
@@ -43,6 +44,7 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::post('save-product-image', [App\Http\Controllers\admin\ProductController::class, 'saveProductImage']);
     Route::get('change-product-default-image', [App\Http\Controllers\admin\ProductController::class, 'updateDefaultImage']);
     Route::delete('product-image-delete/{id}', [App\Http\Controllers\admin\ProductController::class, 'deleteProductImage']);
-    Route::get('order-details', [App\Http\Controllers\admin\AdminOrderController::class, 'AdminOrder']);
-    Route::get('order-details/{id}', [App\Http\Controllers\admin\AdminOrderController::class, 'AdminOrderDetails']);
+    Route::get('orders', [App\Http\Controllers\admin\AdminOrderController::class, 'AdminOrder']);
+    Route::get('orders/{id}', [App\Http\Controllers\admin\AdminOrderController::class, 'AdminOrderDetails']);
+    Route::post('update-order/{id}', [App\Http\Controllers\admin\AdminOrderController::class, 'updateOrder']);
 });
