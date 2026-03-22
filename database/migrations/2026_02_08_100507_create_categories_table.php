@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('status')->default(1);
-            $table->integer('home_category')->nullable();
+            $table->integer('home_category')->default(0);
             $table->timestamps();
         });
     }
