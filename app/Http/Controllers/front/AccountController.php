@@ -114,7 +114,7 @@ class AccountController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users, email,' . $request->user()->id . ',id',
+            'email' => 'required|email|unique:users,email,' . $request->user()->id . ',id',
             'city' => 'required|max:100',
             'state' => 'required|max:100',
             'zip' => 'required|max:100',
@@ -140,5 +140,22 @@ class AccountController extends Controller
             'message' => 'User Profile Updated',
             'data' => $user
         ], 200);
+    }
+
+    public function getAccountDetils(Request $request)
+    {
+        $user = User::find($request->user()->id);
+        if ($user == null) {
+            return response()->json([
+                'status' => 402,
+                'message' => 'User not found',
+                'data' => []
+            ], 402);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'data' => $user
+            ], 200);
+        }
     }
 }
