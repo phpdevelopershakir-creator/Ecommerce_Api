@@ -50,4 +50,5 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::get('orders/{id}', [App\Http\Controllers\admin\AdminOrderController::class, 'AdminOrderDetails']);
     Route::post('update-order/{id}', [App\Http\Controllers\admin\AdminOrderController::class, 'updateOrder']);
     Route::apiResource('shippings', App\Http\Controllers\admin\ShippingController::class);
+    Route::apiResource('users', App\Http\Controllers\admin\UserController::class);
 });
