@@ -18,7 +18,7 @@ Route::get('get-product/{id}', [FrontProductController::class, 'getProduct']);
 
 Route::post('/account/register', [AccountController::class, 'register']);
 Route::post('/account/login', [AccountController::class, 'login']);
-
+Route::get('/get-shipping-charge', [OrderController::class, 'getShipping']);
 
 Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
     Route::post('/order-save', [OrderController::class, 'OrderSave']);
@@ -49,4 +49,5 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::get('orders', [App\Http\Controllers\admin\AdminOrderController::class, 'AdminOrder']);
     Route::get('orders/{id}', [App\Http\Controllers\admin\AdminOrderController::class, 'AdminOrderDetails']);
     Route::post('update-order/{id}', [App\Http\Controllers\admin\AdminOrderController::class, 'updateOrder']);
+    Route::apiResource('shippings', App\Http\Controllers\admin\ShippingController::class);
 });

@@ -6,10 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Models\Shipping;
 
 class OrderController extends Controller
 {
 
+    public function getShipping()
+    {
+        $shippings = Shipping::orderBy('id', 'ASC')->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $shippings
+        ]);
+    }
 
     public function OrderSave(Request $request)
     {
