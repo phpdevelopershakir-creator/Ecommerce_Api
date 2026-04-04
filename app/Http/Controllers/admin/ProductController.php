@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Models\ProductSize;
+use App\Models\SubCategory;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -52,6 +53,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->compare_price = $request->compare_price;
         $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
         $product->sku = $request->sku;
         $product->qty = $request->qty;
@@ -125,7 +127,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with(['product_images', 'product_sizes','product_colors'])->find($id);
+        $product = Product::with(['product_images', 'product_sizes', 'product_colors'])->find($id);
         if ($product == null) {
             return response()->json([
                 'status' => 404,
@@ -140,7 +142,7 @@ class ProductController extends Controller
             'message' => 'Product Added Successfully',
             'data' => $product,
             'productSizes' => $productSizes,
-             'productColors' => $productColors
+            'productColors' => $productColors
         ], 200);
     }
 
@@ -173,6 +175,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->compare_price = $request->compare_price;
         $product->category_id = $request->category_id;
+        $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
         $product->sku = $request->sku;
         $product->qty = $request->qty;
@@ -304,5 +307,14 @@ class ProductController extends Controller
             'status' => 200,
             'message' => 'Product  Image  deleted Successfully',
         ], 200);
+    }
+
+    public function getByCategory($id)
+    {
+        $subcategories = SubCategory::where('category_id', $id)->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $subcategories
+        ]);
     }
 }

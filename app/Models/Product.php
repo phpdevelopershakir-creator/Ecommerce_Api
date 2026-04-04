@@ -11,6 +11,7 @@ class Product extends Model
         'price',
         'compare_price',
         'category_id',
+        'subcategory_id',
         'brand_id',
         'sku',
         'qty',
