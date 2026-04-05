@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -47,6 +48,15 @@ class ProductController extends Controller
         ]);
     }
 
+    public function getByCategory($id)
+    {
+        $subcategories = SubCategory::where('category_id', $id)->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $subcategories
+        ]);
+    }
+
     public function getBrands()
     {
         $brands = Brand::orderBy('created_at', 'ASC')
@@ -69,10 +79,17 @@ class ProductController extends Controller
             $catArray = explode(',', $request->category);
             $products = $products->whereIn('category_id', $catArray);
         }
+
+        if (!empty($request->subcategory)) {
+            $SubcatArray = explode(',', $request->subcategory);
+            $products = $products->whereIn('subcategory_id', $SubcatArray);
+        }
         if (!empty($request->brand)) {
             $brandArray = explode(',', $request->brand);
             $products = $products->whereIn('brand_id', $brandArray);
         }
+
+
         $products = $products->get();
         return response()->json([
             'status' => 200,

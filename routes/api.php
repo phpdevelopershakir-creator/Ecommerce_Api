@@ -12,6 +12,7 @@ Route::post('/admin/login', [AuthController::class, 'authenticate']);
 Route::get('get-latest-products', [FrontProductController::class, 'latetstProducts']);
 Route::get('get-featured-products', [FrontProductController::class, 'featuredProducts']);
 Route::get('get-categories', [FrontProductController::class, 'getCategories']);
+Route::get('get-subcategories/{id}', [FrontProductController::class, 'getByCategory']);
 Route::get('get-brands', [FrontProductController::class, 'getBrands']);
 Route::get('get-products', [FrontProductController::class, 'getProducts']);
 Route::get('get-product/{id}', [FrontProductController::class, 'getProduct']);
