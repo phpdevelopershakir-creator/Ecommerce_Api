@@ -112,4 +112,21 @@ class ProductController extends Controller
             'data' => $product
         ], 200);
     }
+
+    public function HomegetCategories()
+    {
+        $home_categories = Category::with(['products' => function ($query) {
+            $query->where('status', 1); // active product only (optional)
+        }])
+            ->orderBy('created_at', 'ASC')
+            ->where('home_category', 1)
+            ->where('status', 1)
+            ->limit(8)
+            ->get();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $home_categories
+        ]);
+    }
 }
