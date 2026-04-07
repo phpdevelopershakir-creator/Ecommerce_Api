@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function latetstProducts()
     {
-        $products = Product::orderBy('created_at', 'DESC')
+        $products = Product::with('product_sizes.size', 'product_colors.color')->orderBy('created_at', 'DESC')
             ->where('status', 1)
             ->limit(8)
             ->get();
@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function featuredProducts()
     {
-        $products = Product::orderBy('created_at', 'DESC')
+        $products = Product::with('product_sizes.size', 'product_colors.color')->orderBy('created_at', 'DESC')
             ->where('status', 1)
             ->where('is_featured', 'yes')
             ->limit(8)
@@ -71,7 +71,7 @@ class ProductController extends Controller
 
     public function getProducts(Request $request)
     {
-        $products = Product::orderBy('created_at', 'DESC')
+        $products = Product::with('product_sizes.size', 'product_colors.color')->orderBy('created_at', 'DESC')
             ->where('status', 1);
 
         //filter products by category
@@ -115,12 +115,13 @@ class ProductController extends Controller
 
     public function HomegetCategories()
     {
-        $home_categories = Category::with(['products' => function ($query) {
-            $query->where('status', 1); // active product only (optional)
-        }])
-            ->orderBy('created_at', 'ASC')
+        $home_categories = Category::with([
+            'products.product_sizes.size',
+            'products.product_colors.color'
+        ])
             ->where('home_category', 1)
             ->where('status', 1)
+            ->orderBy('created_at', 'ASC')
             ->limit(8)
             ->get();
 
