@@ -89,8 +89,8 @@ class SocialController extends Controller
 
 
         $social->update([
-            'name' => $request->name,
-            'status' => $request->status ?? $social->status,
+            'icon' => $request->icon,
+            'link' => $request->link,
         ]);
 
         return response()->json([

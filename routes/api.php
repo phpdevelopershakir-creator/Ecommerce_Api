@@ -23,6 +23,8 @@ Route::get('/get-shipping-charge', [OrderController::class, 'getShipping']);
 
 Route::get('home-get-categories', [FrontProductController::class, 'HomegetCategories']);
 
+
+Route::get('get-socials', [FrontProductController::class, 'getSocials']);
 Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
     Route::post('/order-save', [OrderController::class, 'OrderSave']);
     Route::get('get-orders', [AccountController::class, 'getOrders']);

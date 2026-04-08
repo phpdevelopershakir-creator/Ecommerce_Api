@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Social;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
@@ -128,6 +129,16 @@ class ProductController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $home_categories
+        ]);
+    }
+
+    public function getSocials()
+    {
+        $socials = Social::orderBy('created_at', 'ASC')->get();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $socials
         ]);
     }
 }
