@@ -37,7 +37,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-
 Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(function () {
 
     Route::apiResource('categories', App\Http\Controllers\admin\CategoryController::class);
@@ -56,4 +55,6 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::apiResource('shippings', App\Http\Controllers\admin\ShippingController::class);
     Route::apiResource('users', App\Http\Controllers\admin\UserController::class);
     Route::get('/subcategories-by-category/{id}', [App\Http\Controllers\admin\ProductController::class, 'getByCategory']);
+
+    Route::apiResource('socials', App\Http\Controllers\admin\SocialController::class);
 });
