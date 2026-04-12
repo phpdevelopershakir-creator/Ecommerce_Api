@@ -22,7 +22,7 @@ Route::post('/account/login', [AccountController::class, 'login']);
 Route::get('/get-shipping-charge', [OrderController::class, 'getShipping']);
 
 Route::get('home-get-categories', [FrontProductController::class, 'HomegetCategories']);
-
+Route::get('get-sliders', [FrontProductController::class, 'getSliders']);
 
 Route::get('get-socials', [FrontProductController::class, 'getSocials']);
 Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
@@ -57,6 +57,6 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::apiResource('shippings', App\Http\Controllers\admin\ShippingController::class);
     Route::apiResource('users', App\Http\Controllers\admin\UserController::class);
     Route::get('/subcategories-by-category/{id}', [App\Http\Controllers\admin\ProductController::class, 'getByCategory']);
-
     Route::apiResource('socials', App\Http\Controllers\admin\SocialController::class);
+    Route::apiResource('sliders', App\Http\Controllers\admin\SliderController::class);
 });

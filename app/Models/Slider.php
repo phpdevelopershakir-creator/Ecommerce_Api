@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class Slider extends Model
 {
     protected $fillable = [
-        'name',
-        'status',
+        'title',
+        'link',
         'image',
     ];
 
@@ -18,6 +18,6 @@ class Brand extends Model
         if ($this->image == "") {
             return "";
         }
-        return asset('uploads/brands/' . $this->image);
+        return asset('uploads/sliders/' . $this->image);
     }
 }

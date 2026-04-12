@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Slider;
 use App\Models\Social;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
@@ -139,6 +140,15 @@ class ProductController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $socials
+        ]);
+    }
+
+    public function getSliders()
+    {
+        $sliders = Slider::orderBy('created_at', 'ASC')->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $sliders
         ]);
     }
 }

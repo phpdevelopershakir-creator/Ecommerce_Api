@@ -3,21 +3,23 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use App\Models\Brand;
+use App\Models\Slider;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 
-class BrandController extends Controller
+class SliderController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $brands = Brand::orderBy('created_at', 'DESC')->get();
+        $sliders = Slider::orderBy('created_at', 'DESC')->get();
         return response()->json([
             'status' => 200,
-            'data' => $brands
+            'data' => $sliders
         ]);
     }
 
@@ -27,8 +29,8 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'status' => 'required',
+            'title' => 'required',
+            'link' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -36,10 +38,10 @@ class BrandController extends Controller
                 'errors' => $validator->errors()
             ], 400);
         }
-        $brand = new Brand();
-        $brand->name = $request->name;
-        $brand->status = $request->status;
-        $brand->save();
+        $slider = new Slider();
+        $slider->title = $request->title;
+        $slider->link = $request->link;
+        $slider->save();
 
         //save image here
         $tempImage = TempImage::find($request->image_id);
@@ -48,11 +50,11 @@ class BrandController extends Controller
         if ($tempImage != null) {
             $imageExArray = explode('.', $tempImage->name);
             $ext = last($imageExArray);
-            $imageName = time() . '-' . $brand->id . '.' . $ext;
-            $brand->image = $imageName;
-            $brand->save();
+            $imageName = time() . '-' . $slider->id . '.' . $ext;
+            $slider->image = $imageName;
+            $slider->save();
             $sourcePath = public_path('uploads/temp/' . $tempImage->name);
-            $descPath = public_path('uploads/brands/' . $imageName);
+            $descPath = public_path('uploads/sliders/' . $imageName);
             File::copy($sourcePath, $descPath);
         }
 
@@ -60,8 +62,8 @@ class BrandController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Added Successfully',
-            'data' => $brand
+            'message' => 'Slider Added Successfully',
+            'data' => $slider
         ], 200);
     }
 
@@ -70,17 +72,17 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        $brand = Brand::find($id);
-        if ($brand == null) {
+        $slider = Slider::find($id);
+        if ($slider == null) {
             return response()->json([
                 'status' => 400,
-                'message' => 'Brand Not Fund',
+                'message' => 'Slider Not Fund',
                 'data' => []
             ], 404);
         }
         return response()->json([
             'status' => 200,
-            'data' => $brand
+            'data' => $slider
         ]);
     }
 
@@ -89,20 +91,20 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $brand = Brand::find($id);
+        $slider = Slider::find($id);
 
-        if ($brand == null) {
+        if ($slider == null) {
             return response()->json([
                 'status' => 400,
-                'message' => 'Brand Not Fund',
+                'message' => 'Slider Not Fund',
 
             ], 400);
         }
 
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'status' => 'required|integer|in:0,1',
+            'title' => 'required',
+            'link' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -112,23 +114,23 @@ class BrandController extends Controller
             ], 422);
         }
 
-        $brand->name = $request->name;
-        $brand->status = $request->status;
-        $brand->save();
+        $slider->title = $request->title;
+        $slider->link = $request->link;
+        $slider->save();
 
         //save image here
         $tempImage = TempImage::find($request->image_id);
 
 
         if ($tempImage != null) {
-            File::delete(public_path('uploads/brands/' . $brand->image));
+            File::delete(public_path('uploads/sliders/' . $slider->image));
             $imageExArray = explode('.', $tempImage->name);
             $ext = last($imageExArray);
-            $imageName = time() . '-' . $brand->id . '.' . $ext;
-            $brand->image = $imageName;
-            $brand->save();
+            $imageName = time() . '-' . $slider->id . '.' . $ext;
+            $slider->image = $imageName;
+            $slider->save();
             $sourcePath = public_path('uploads/temp/' . $tempImage->name);
-            $descPath = public_path('uploads/brands/' . $imageName);
+            $descPath = public_path('uploads/sliders/' . $imageName);
             File::copy($sourcePath, $descPath);
         }
 
@@ -136,21 +138,15 @@ class BrandController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Updated Successfully',
-            'data' => $brand
+            'message' => 'Slider Updated Successfully',
+            'data' => $slider
         ], 200);
 
 
-
-        // $brand->update([
-        //     'name' => $request->name,
-        //     'status' => $request->status ?? $brand->status,
-        // ]);
-
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Updated Successfully',
-            'data' => $brand,
+            'message' => 'Slider Updated Successfully',
+            'data' => $slider,
         ], 200);
     }
 
@@ -159,18 +155,18 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        $brand = Brand::find($id);
+        $slider = Slider::find($id);
 
-        if (!$brand) {
+        if (!$slider) {
             return response()->json([
                 'status' => 404,
-                'message' => 'Brand Not Found',
+                'message' => 'Slider Not Found',
             ], 404);
         }
-        $brand->delete();
+        $slider->delete();
         return response()->json([
             'status' => 200,
-            'message' => 'Brand Delete Successfully',
+            'message' => 'Slider Delete Successfully',
         ], 200);
     }
 }
