@@ -94,6 +94,10 @@ class ProductController extends Controller
             $products = $products->whereIn('brand_id', $brandArray);
         }
 
+        if (!empty($request->keyword)) {
+            $products = $products->where('title', 'LIKE', '%' . $request->keyword . '%');
+        }
+
 
         $products = $products->get();
         return response()->json([
