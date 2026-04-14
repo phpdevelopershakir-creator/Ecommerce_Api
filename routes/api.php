@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AuthController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\front\AccountController;
 use App\Http\Controllers\front\OrderController;
 use App\Http\Controllers\front\ProductController as FrontProductController;
@@ -22,7 +23,7 @@ Route::get('/get-shipping-charge', [OrderController::class, 'getShipping']);
 Route::get('home-get-categories', [FrontProductController::class, 'HomegetCategories']);
 Route::get('get-sliders', [FrontProductController::class, 'getSliders']);
 Route::get('get-settings', [FrontProductController::class, 'getSettings']);
-
+Route::post('contact-store', [FrontProductController::class, 'ContactStore']);
 
 Route::get('get-socials', [FrontProductController::class, 'getSocials']);
 Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
@@ -61,4 +62,5 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::apiResource('sliders', App\Http\Controllers\admin\SliderController::class);
     Route::get('/settings', [App\Http\Controllers\admin\SettingController::class, 'settings']);
     Route::post('/settings/update', [App\Http\Controllers\admin\SettingController::class, 'update']);
+    Route::get('/get-dashboard', [DashboardController::class, 'index']);
 });

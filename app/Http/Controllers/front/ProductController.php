@@ -5,12 +5,14 @@ namespace App\Http\Controllers\front;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\Social;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -160,5 +162,35 @@ class ProductController extends Controller
             'status' => 200,
             'data' => $setting
         ]);
+    }
+
+    public function ContactStore(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'mobile' => 'required',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors()
+            ], 400);
+        }
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->mobile = $request->mobile;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+        $contact->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Contact Added Successfully Please Wait Admin reply',
+            'data' => $contact
+        ], 200);
     }
 }
