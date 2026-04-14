@@ -63,4 +63,6 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::get('/settings', [App\Http\Controllers\admin\SettingController::class, 'settings']);
     Route::post('/settings/update', [App\Http\Controllers\admin\SettingController::class, 'update']);
     Route::get('/get-dashboard', [DashboardController::class, 'index']);
+    Route::get('/get-contact', [DashboardController::class, 'getContact']);
+    Route::delete('/contact-delete/{id}', [DashboardController::class, 'destroy']);
 });
