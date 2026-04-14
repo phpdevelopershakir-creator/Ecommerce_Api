@@ -4,8 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller
 {
@@ -35,6 +37,21 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->status = $request->status;
         $category->save();
+
+        //save image here
+        $tempImage = TempImage::find($request->image_id);
+
+
+        if ($tempImage != null) {
+            $imageExArray = explode('.', $tempImage->name);
+            $ext = last($imageExArray);
+            $imageName = time() . '-' . $category->id . '.' . $ext;
+            $category->image = $imageName;
+            $category->save();
+            $sourcePath = public_path('uploads/temp/' . $tempImage->name);
+            $descPath = public_path('uploads/categories/' . $imageName);
+            File::copy($sourcePath, $descPath);
+        }
         return response()->json([
             'status' => 200,
             'message' => 'Category Added Successfully',
@@ -77,10 +94,26 @@ class CategoryController extends Controller
 
 
 
-        $category->update([
-            'name' => $request->name,
-            'status' => $request->status ?? $category->status,
-        ]);
+        $category->name = $request->name;
+        $category->status = $request->status;
+        $category->save();
+
+        //save image here
+        $tempImage = TempImage::find($request->image_id);
+
+
+        if ($tempImage != null) {
+            File::delete(public_path('uploads/categories/' . $category->image));
+            $imageExArray = explode('.', $tempImage->name);
+            $ext = last($imageExArray);
+            $imageName = time() . '-' . $category->id . '.' . $ext;
+            $category->image = $imageName;
+            $category->save();
+            $sourcePath = public_path('uploads/temp/' . $tempImage->name);
+            $descPath = public_path('uploads/categories/' . $imageName);
+            File::copy($sourcePath, $descPath);
+        }
+
 
         return response()->json([
             'status' => 200,

@@ -16,13 +16,13 @@ Route::get('get-subcategories/{id}', [FrontProductController::class, 'getByCateg
 Route::get('get-brands', [FrontProductController::class, 'getBrands']);
 Route::get('get-products', [FrontProductController::class, 'getProducts']);
 Route::get('get-product/{id}', [FrontProductController::class, 'getProduct']);
-
 Route::post('/account/register', [AccountController::class, 'register']);
 Route::post('/account/login', [AccountController::class, 'login']);
 Route::get('/get-shipping-charge', [OrderController::class, 'getShipping']);
-
 Route::get('home-get-categories', [FrontProductController::class, 'HomegetCategories']);
 Route::get('get-sliders', [FrontProductController::class, 'getSliders']);
+Route::get('get-settings', [FrontProductController::class, 'getSettings']);
+
 
 Route::get('get-socials', [FrontProductController::class, 'getSocials']);
 Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
@@ -59,4 +59,6 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::get('/subcategories-by-category/{id}', [App\Http\Controllers\admin\ProductController::class, 'getByCategory']);
     Route::apiResource('socials', App\Http\Controllers\admin\SocialController::class);
     Route::apiResource('sliders', App\Http\Controllers\admin\SliderController::class);
+    Route::get('/settings', [App\Http\Controllers\admin\SettingController::class, 'settings']);
+    Route::post('/settings/update', [App\Http\Controllers\admin\SettingController::class, 'update']);
 });

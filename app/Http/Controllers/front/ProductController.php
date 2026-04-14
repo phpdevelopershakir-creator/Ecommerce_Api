@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\Social;
 use App\Models\SubCategory;
@@ -149,6 +150,15 @@ class ProductController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $sliders
+        ]);
+    }
+
+    public function getSettings()
+    {
+        $setting = Setting::firstOrFail();
+        return response()->json([
+            'status' => 200,
+            'data' => $setting
         ]);
     }
 }

@@ -4,19 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Setting extends Model
 {
     protected $fillable = [
-        'name',
-        'status',
-        'home_category',
+        'mobile',
+        'email',
+        'url',
+        'address',
+        'footer',
+        'description',
         'image',
     ];
-
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
 
     protected $appends = ['image_url'];
     public function getImageUrlAttribute()
@@ -24,6 +22,6 @@ class Category extends Model
         if ($this->image == "") {
             return "";
         }
-        return asset('uploads/categories/' . $this->image);
+        return asset('uploads/settings/' . $this->image);
     }
 }
