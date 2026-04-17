@@ -65,4 +65,5 @@ Route::middleware(['auth:sanctum', 'checkAdminRole'])->prefix('admin')->group(fu
     Route::get('/get-dashboard', [DashboardController::class, 'index']);
     Route::get('/get-contact', [DashboardController::class, 'getContact']);
     Route::delete('/contact-delete/{id}', [DashboardController::class, 'destroy']);
+    Route::apiResource('coupons', App\Http\Controllers\admin\CouponController::class);
 });
