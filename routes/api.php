@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\front\AccountController;
 use App\Http\Controllers\front\OrderController;
 use App\Http\Controllers\front\ProductController as FrontProductController;
+use App\Http\Controllers\front\CouponController as FrontCouponController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,8 +25,8 @@ Route::get('home-get-categories', [FrontProductController::class, 'HomegetCatego
 Route::get('get-sliders', [FrontProductController::class, 'getSliders']);
 Route::get('get-settings', [FrontProductController::class, 'getSettings']);
 Route::post('contact-store', [FrontProductController::class, 'ContactStore']);
-
 Route::get('get-socials', [FrontProductController::class, 'getSocials']);
+Route::post('/apply-coupon', [FrontCouponController::class, 'applyCoupon']);
 Route::middleware(['auth:sanctum', 'checkUserRole'])->group(function () {
     Route::post('/order-save', [OrderController::class, 'OrderSave']);
     Route::get('get-orders', [AccountController::class, 'getOrders']);

@@ -35,6 +35,7 @@ class OrderController extends Controller
             $order->grand_total = $request->grand_total;
             $order->subtotal = $request->subtotal;
             $order->discount = $request->discount;
+            $order->coupon_code = $request->coupon_code;
             $order->shipping = $request->shipping;
             $order->payment_status = $request->payment_status;
             $order->status = $request->status;

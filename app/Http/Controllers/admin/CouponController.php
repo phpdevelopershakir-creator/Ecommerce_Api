@@ -31,10 +31,6 @@ class CouponController extends Controller
             'code' => 'required',
             'type' => 'required',
             'value' => 'required',
-            'min_purchase' => 'required',
-            'max_discount' => 'required',
-            'usage_limit' => 'nullable',
-            'used_count' => 'nullable',
             'expire_date' => 'required',
             'status' => 'required',
         ]);
@@ -48,10 +44,6 @@ class CouponController extends Controller
         $coupon->code = $request->code;
         $coupon->type = $request->type;
         $coupon->value = $request->value;
-        $coupon->min_purchase = $request->min_purchase;
-        $coupon->max_discount = $request->max_discount;
-        $coupon->usage_limit = $request->usage_limit;
-        $coupon->used_count = 0;
         $coupon->expire_date = Carbon::parse($request->expire_date)->format('Y-m-d');
         $coupon->status = $request->status;
         $coupon->save();
@@ -91,10 +83,6 @@ class CouponController extends Controller
             'code' => 'required',
             'type' => 'required',
             'value' => 'required',
-            'min_purchase' => 'required',
-            'max_discount' => 'required',
-            'usage_limit' => 'nullable',
-            'used_count' => 'nullable',
             'expire_date' => 'required',
             'status' => 'required',
         ]);
@@ -112,9 +100,6 @@ class CouponController extends Controller
         $coupon->code = $request->code;
         $coupon->type = $request->type;
         $coupon->value = $request->value;
-        $coupon->min_purchase = $request->min_purchase;
-        $coupon->max_discount = $request->max_discount;
-        $coupon->usage_limit = $request->usage_limit;
         $coupon->expire_date = Carbon::parse($request->expire_date)->format('Y-m-d');
         $coupon->status = $request->status;
         $coupon->save();

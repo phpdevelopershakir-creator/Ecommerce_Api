@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalUsers = User::count();
+        $totalUsers = User::where('role','customer')->count();
         $totalProducts = Product::count();
         $totalOrders = Order::count();
 
