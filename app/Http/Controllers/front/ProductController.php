@@ -20,6 +20,7 @@ class ProductController extends Controller
     {
         $products = Product::with('product_sizes.size', 'product_colors.color')->orderBy('created_at', 'DESC')
             ->where('status', 1)
+            ->where('is_featured', 'no')
             ->limit(8)
             ->get();
         return response()->json([
